@@ -12,6 +12,7 @@ Instagram bu dosyaları `raw.githubusercontent.com` üzerinden çeker; dosya adl
 | Cmt 14 Kasım | 11:00 | Hikâye | cmt-14kasim-hafta-sonu-ingilizce.mp4 |
 | Paz 15 Kasım | 18:30 | Hikâye | paz-15kasim-ara-tatil-basliyor.mp4 |
 | Sal 17 Kasım | 19:00 (onay bekliyor) | Reels | gma-okul-oncesi-neden-onemli.mp4 |
+| Cum 20 Kasım | 09:00 (onay bekliyor) | Reels + Hikâye | gma-her-cocugun-isigi-baska.mp4 |
 
 ## Müzik
 Tüm müzikler gerçek enstrüman kayıtlarından (VCSL ve D. Smolken kontrbas örnekleri, CC0 / kamu malı) üretilir; her videonun kendi tonu, temposu ve enstrümanı vardır. Ticari kullanım serbesttir, atıf gerekmez.
