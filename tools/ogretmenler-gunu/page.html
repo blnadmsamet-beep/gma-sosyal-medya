@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin:0; padding:0; width:1080px; height:1920px; overflow:hidden; background:#0b1430; }
+  * { box-sizing:border-box; }
+  #stage { position:relative; width:1080px; height:1920px; overflow:hidden; background:#0b1430; }
+  .layer { position:absolute; inset:0; opacity:0; will-change:opacity, transform; }
+  .layer img { position:absolute; left:50%; top:50%; width:1080px; height:1920px; object-fit:cover; transform-origin:center center; }
+  .glow { position:absolute; left:0; top:0; width:1080px; height:1920px; pointer-events:none; mix-blend-mode:screen; opacity:0; }
+  .vignette { position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,0,0,0) 40%, rgba(5,9,24,0.55) 100%); }
+  .shade { position:absolute; inset:0; pointer-events:none; opacity:0; }
+  .txt { position:absolute; left:110px; width:860px; text-align:center; opacity:0; will-change:opacity, transform; }
+  .label { font-family:"Inter", sans-serif; font-weight:600; letter-spacing:0.32em; text-transform:uppercase; color:#d9a441; font-size:30px; }
+  .label .sep { color:rgba(253,246,236,0.55); margin:0 14px; }
+  .label .sub { display:block; margin-top:18px; color:#fdf6ec; font-weight:500; letter-spacing:0.22em; font-size:34px; }
+  .quote { font-family:"Lora", serif; font-style:italic; font-weight:500; color:#fdf6ec; font-size:60px; line-height:1.28; text-shadow:0 2px 24px rgba(0,0,0,0.55); }
+  .quote .gold { color:#e6b75a; }
+  .line { font-family:"Lora", serif; font-style:italic; font-weight:500; color:#fdf6ec; font-size:56px; line-height:1.3; text-shadow:0 2px 24px rgba(0,0,0,0.6); }
+  .big { font-family:"Lora", serif; color:#fdf6ec; line-height:1.1; }
+  .big .date { display:block; font-style:italic; font-weight:500; color:#e6b75a; font-size:72px; letter-spacing:0.01em; }
+  .big .main { display:block; font-weight:600; font-size:108px; margin-top:16px; letter-spacing:-0.01em; }
+  .big .main2 { display:block; font-weight:500; font-style:italic; font-size:84px; margin-top:6px; }
+  .rule { position:absolute; left:50%; height:3px; background:#d9a441; transform:translateX(-50%); opacity:0; }
+  /* logo card */
+  #card { position:absolute; inset:0; background:#ffffff; opacity:0; }
+  #card img { position:absolute; left:50%; top:815px; width:352px; transform:translate(-50%,-50%); transform-origin:center; }
+  #card .l1 { position:absolute; left:0; width:1080px; top:1150px; text-align:center; font-family:"Inter", sans-serif; font-weight:600; font-size:38px; letter-spacing:0.14em; color:#1e2a5a; opacity:0; }
+  #card .l2 { position:absolute; left:0; width:1080px; top:1206px; text-align:center; font-family:"Inter", sans-serif; font-style:italic; font-weight:400; font-size:34px; color:#4a5478; opacity:0; }
+  #card .l3 { position:absolute; left:0; width:1080px; top:1268px; text-align:center; font-family:"Inter", sans-serif; font-weight:500; font-size:28px; letter-spacing:0.4em; color:#d9a441; opacity:0; }
+  #card .l4 { position:absolute; left:0; width:1080px; top:1318px; text-align:center; font-family:"Inter", sans-serif; font-weight:400; font-size:26px; letter-spacing:0.04em; color:#6b7390; opacity:0; }
+  #card .rule { top:1106px; width:140px; }
+  #white { position:absolute; inset:0; background:#fff; opacity:0; }
+  #black { position:absolute; inset:0; background:#060b1c; opacity:0; }
+  .mote { position:absolute; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle, rgba(255,214,140,0.95) 0%, rgba(255,190,90,0.35) 45%, rgba(255,170,60,0) 70%); opacity:0; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="L1"><img id="I1"></div>
+  <div class="layer" id="L2"><img id="I2"></div>
+  <div class="layer" id="L3"><img id="I3"></div>
+  <div class="layer" id="L4"><img id="I4"></div>
+  <div class="layer" id="L5"><img id="I5"></div>
+  <div class="layer" id="LF"><img id="IF"></div>
+  <div class="glow" id="glow"></div>
+  <div class="vignette"></div>
+  <div class="shade" id="shade" style="background:linear-gradient(180deg, rgba(6,11,28,0.0) 45%, rgba(6,11,28,0.55) 75%, rgba(6,11,28,0.7) 100%)"></div>
+  <div id="motes"></div>
+
+  <div class="txt label" id="T1" style="top:300px">24 Kasım<span class="sub">Öğretmenler Günü</span></div>
+
+  <div class="txt quote" id="T2" style="top:1180px">Öğretmen bir <span class="gold">kandil</span> gibidir;<br>aydınlanacak nesiller için<br>kendinden verir.</div>
+
+  <div class="txt line" id="T3" style="top:1230px">İlk harfini tanıyan gözlerde…</div>
+  <div class="txt line" id="T4" style="top:1230px">İlk kez “ben yaparım”<br>diyen seslerde…</div>
+
+  <div class="txt line" id="T5" style="top:1210px">Tüm öğretmenlerimize<br><span style="color:#e6b75a">minnettarız.</span></div>
+
+  <div class="txt big" id="T6" style="top:720px"><span class="date">24 Kasım</span><span class="main">Öğretmenler Günü</span><span class="main2">kutlu olsun.</span></div>
+  <div class="rule" id="R6" style="top:1110px; width:0px"></div>
+
+  <div id="black"></div>
+  <div id="card">
+    <img id="logo">
+    <div class="rule" id="RC" style="opacity:1"></div>
+    <div class="l1">GELECEĞİN MİMARLARI ANAOKULU</div>
+    <div class="l2">Gelecek için eğitim</div>
+    <div class="l3">SAFRANBOLU</div>
+    <div class="l4">geleceginmimarlari.com</div>
+  </div>
+  <div id="white"></div>
+</div>
+<script>
+// ---------- helpers ----------
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const lerp=(a,b,u)=>a+(b-a)*u;
+const smooth=u=>{u=clamp(u,0,1);return u*u*(3-2*u);};
+const easeOut=u=>{u=clamp(u,0,1);return 1-Math.pow(1-u,3);};
+const easeInOut=u=>{u=clamp(u,0,1);return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;};
+// fade window: in over fi at t0, out over fo ending at t1
+function win(t,t0,t1,fi=0.7,fo=0.6){ if(t<t0||t>t1) return 0; const a=smooth((t-t0)/fi); const b=smooth((t1-t)/fo); return Math.min(a,b); }
+function noise1(t){ return 0.5+0.5*(Math.sin(t*7.1)*0.5+Math.sin(t*13.7+1.3)*0.3+Math.sin(t*23.3+0.7)*0.2); }
+
+let CFG=null;
+function setup(cfg){
+  CFG=cfg;
+  for(let i=1;i<=5;i++){ document.getElementById('I'+i).src=cfg.images[i-1]; }
+  document.getElementById('IF').src=cfg.images[0];
+  document.getElementById('logo').src=cfg.logo;
+  // motes
+  const m=document.getElementById('motes'); m.innerHTML='';
+  for(let i=0;i<22;i++){ const d=document.createElement('div'); d.className='mote'; m.appendChild(d); }
+  return document.fonts.ready.then(()=>true);
+}
+
+function kenburns(el, t, sc){ // sc: {t0,t1,s0,s1,x0,y0,x1,y1} translate in px at output scale
+  const u=easeInOut((t-sc.t0)/(sc.t1-sc.t0));
+  const s=lerp(sc.s0,sc.s1,u), x=lerp(sc.x0,sc.x1,u), y=lerp(sc.y0,sc.y1,u);
+  el.style.transform=`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${s})`;
+}
+
+function setTxt(id,o,dy=0){ const e=document.getElementById(id); e.style.opacity=o; e.style.transform=`translateY(${dy}px)`; }
+
+function render(t){
+  const S=CFG.scenes; // array of {img, t0, t1, kb}
+  // image layers with crossfades (each scene fades in over xf at its t0; previous stays until t0+xf)
+  const xf=CFG.xfade;
+  const layers=['L1','L2','L3','L4','L5','LF'];
+  let glowAmt=0, glowX=540, glowY=1100, glowR=520;
+  const lay={}; // layer -> {o, z, scene}
+  for(let i=0;i<S.length;i++){
+    const sc=S[i]; const key=sc.layer || layers[sc.img-1];
+    let o=0;
+    if(t>=sc.t0 && t<sc.t1+xf){
+      o = sc.fadeIn ? smooth((t-sc.t0)/sc.fadeIn) : smooth((t-sc.t0)/xf);
+      if(sc.fadeOut){ o=Math.min(o, smooth((sc.t1+xf-t)/sc.fadeOut)); }
+    }
+    if(!lay[key] || o>=lay[key].o){ lay[key]={o:o, z:i+1, sc:sc}; }
+    if(o>0 && sc.glow){ glowAmt=Math.max(glowAmt, o*sc.glow.a); glowX=sc.glow.x; glowY=sc.glow.y; glowR=sc.glow.r; }
+  }
+  for(const key of layers){
+    const el=document.getElementById(key); const L=lay[key];
+    if(!L){ el.style.opacity=0; continue; }
+    el.style.opacity=L.o; el.style.zIndex=L.z;
+    const img=el.querySelector('img');
+    if(L.o>0){ kenburns(img, t, Object.assign({t0:L.sc.t0,t1:L.sc.t1+xf}, L.sc.kb)); img.style.filter = L.sc.dim ? `brightness(${L.sc.dim})` : 'none'; }
+  }
+  // flame glow flicker
+  const g=document.getElementById('glow');
+  if(glowAmt>0){
+    const n=noise1(t); const a=glowAmt*(0.55+0.45*n); const r=glowR*(0.96+0.08*n);
+    g.style.background=`radial-gradient(circle ${r}px at ${glowX}px ${glowY}px, rgba(255,186,92,${(0.42*a).toFixed(3)}) 0%, rgba(255,150,60,${(0.16*a).toFixed(3)}) 35%, rgba(255,120,40,0) 70%)`;
+    g.style.opacity=1; g.style.zIndex=20;
+  } else g.style.opacity=0;
+  // bottom shade for text legibility
+  const sh=document.getElementById('shade'); sh.style.zIndex=21;
+  let shade=0; for(const w of CFG.shade){ shade=Math.max(shade, win(t,w[0],w[1],0.8,0.8)); }
+  sh.style.opacity=shade*0.9;
+  document.querySelector('.vignette').style.zIndex=19;
+  // motes
+  const motes=document.querySelectorAll('.mote'); let mo=0; for(const w of CFG.motes){ mo=Math.max(mo, win(t,w[0],w[1],1.5,1.2)); }
+  motes.forEach((d,i)=>{
+    const seed=i*17.31; const sp=14+ (i%5)*4; const y=1500 - ((t*sp + seed*37)%1700); const x= 120 + ((seed*101)%840) + Math.sin(t*0.6+seed)*22;
+    const sz=5+(i%4)*2.5; d.style.width=sz+'px'; d.style.height=sz+'px';
+    d.style.transform=`translate(${x}px,${y}px)`; d.style.zIndex=22;
+    d.style.opacity= mo*(0.35+0.65*noise1(t*0.7+seed))*0.9;
+  });
+  // texts
+  const T=CFG.texts; // {id:[t0,t1]}
+  for(const id in T){ const w=T[id]; const o=win(t,w[0],w[1],w[2]||0.7,w[3]||0.6); const dy=(1-easeOut((t-w[0])/(w[2]||0.7)))*26; setTxt(id,o,dy); document.getElementById(id).style.zIndex=30; }
+  // gold rule for greeting
+  const r6=document.getElementById('R6'); const rw=CFG.texts.T6? easeOut((t-CFG.texts.T6[0]-0.2)/1.1):0; r6.style.width=(rw*160)+'px'; r6.style.opacity=win(t,CFG.texts.T6[0],CFG.texts.T6[1],0.7,0.6); r6.style.zIndex=30;
+  // black fade before card
+  const bk=document.getElementById('black'); bk.style.zIndex=40;
+  const C=CFG.card; // {t0,t1,fadeW}
+  bk.style.opacity = (t < C.t0+1.0) ? smooth((t-(C.t0-0.9))/0.9) : 0;
+  // logo card
+  const card=document.getElementById('card'); card.style.zIndex=50;
+  if(t>=C.t0-0.05){
+    const u=clamp((t-C.t0)/(C.t1-C.t0),0,1);
+    card.style.opacity=smooth((t-C.t0)/0.8);
+    const s=lerp(0.90,1.0,easeOut(u*1.15));
+    document.getElementById('logo').style.transform=`translate(-50%,-50%) scale(${s})`;
+    const lines=['l1','l2','l3','l4'];
+    lines.forEach((c,i)=>{ const e=card.querySelector('.'+c); const o=smooth((t-(C.t0+0.9+i*0.35))/0.7); e.style.opacity=o; e.style.transform=`translateY(${(1-o)*14}px)`; });
+    const rc=document.getElementById('RC'); rc.style.opacity=smooth((t-(C.t0+0.6))/0.6);
+  } else card.style.opacity=0;
+  // final white fade
+  const wh=document.getElementById('white'); wh.style.zIndex=60; wh.style.opacity=smooth((t-(C.t1-C.fadeW))/C.fadeW);
+  return true;
+}
+</script>
+</body>
+</html>
